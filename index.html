@@ -160,34 +160,6 @@
   }
   .brand-foot img{ height:22px; width:auto; background:#fff; padding:2px 4px; border-radius:3px; }
 
-  /* Smile Serenity brand-mark: two triangles, generated entirely in CSS
-     (no external image — keeps the file small + self-contained). */
-  .smile-mark{
-    display:inline-flex;
-    align-items:flex-end;
-    gap:3px;
-    flex:none;
-    vertical-align:middle;
-  }
-  .smile-mark::before,
-  .smile-mark::after{
-    content:'';
-    display:block;
-    width:0; height:0;
-    border-style:solid;
-    border-color: transparent transparent #0d3a6b transparent;
-  }
-  .smile-mark.sm::before, .smile-mark.sm::after{ border-width:0 6px 22px 6px; }
-  .smile-mark.md::before, .smile-mark.md::after{ border-width:0 9px 32px 9px; }
-  .smile-mark.lg::before, .smile-mark.lg::after{ border-width:0 13px 46px 13px; }
-  /* In the dark footer, give the mark a small white plinth to match the original */
-  .brand-foot .smile-mark{
-    background:#fff;
-    padding:3px 5px;
-    border-radius:3px;
-    align-self:center;
-  }
-
   .title{
     font-family:"Press Start 2P","VT323",monospace;
     font-size:16px; letter-spacing:.22em;
@@ -608,7 +580,6 @@
     </div>
     <div class="center">
       <div class="brand-row">
-        <span class="smile-mark sm" role="img" aria-label="Smile Serenity logo"></span>
         <div class="brand-txt">
           <span class="b1">SMILE&nbsp;SERENITY</span>
           <span class="b2">Dental Care</span>
@@ -639,7 +610,6 @@
       <!-- Title overlay -->
       <div class="overlay" id="overlay">
         <div class="brand-hero">
-          <span class="smile-mark lg" role="img" aria-label="Smile Serenity logo"></span>
           <div class="b-text">
             <span class="b1">SMILE&nbsp;SERENITY</span>
             <span class="b2">Dental Care</span>
@@ -677,7 +647,6 @@
       <span><kbd>M</kbd> mute</span>
     </div>
     <div class="brand-foot">
-      <span class="smile-mark sm" role="img" aria-label="Smile Serenity"></span>
       <span>Smile&nbsp;Serenity&nbsp;Dental&nbsp;Care</span>
       <span style="color:#5a7e8c">· HI · <b id="hi-foot-val" style="color:#eaf7ff">00000</b></span>
     </div>
@@ -1004,7 +973,6 @@ function nextWave(){
 function showMenu(title, sub){
   overlay.innerHTML = `
     <div class="brand-hero">
-      <span class="smile-mark lg" role="img" aria-label="Smile Serenity logo"></span>
       <div class="b-text">
         <span class="b1">SMILE&nbsp;SERENITY</span>
         <span class="b2">Dental Care</span>
@@ -1109,7 +1077,6 @@ function showScoreForm(score, wave){
 
   overlay.innerHTML = `
     <div class="brand-hero" style="margin-bottom:10px; padding:10px 16px">
-      <span class="smile-mark md" role="img" aria-label="Smile Serenity logo"></span>
       <div class="b-text">
         <span class="b1">SMILE&nbsp;SERENITY</span>
         <span class="b2">Dental Care</span>
