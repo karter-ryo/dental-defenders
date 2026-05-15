@@ -520,23 +520,44 @@
 
   /* ---- responsive ---- */
   @media (max-width: 720px){
-    .hud{ grid-template-columns: 1fr 1fr; padding:10px 12px 6px; gap:10px; }
+    /* Compact HUD so the playfield gets more vertical room */
+    .hud{ grid-template-columns: 1fr 1fr; padding:6px 10px 4px; gap:8px; }
     .center{ display:none }
-    .player .name{ font-size:10px }
-    .player .stats{ gap:10px; font-size:18px }
-    .num{ font-size:22px }
-    .stat .lab{ font-size:10px }
+    .player .name{ font-size:9px; gap:6px }
+    .player .stats{ gap:8px; font-size:16px }
+    .num{ font-size:18px }
+    .stat .lab{ font-size:9px; letter-spacing:.12em }
+    .pwr{ padding:2px 6px; font-size:12px }
+    .pwr .lvl{ font-size:9px }
+    .heart{ width:11px; height:11px }
+    /* Overlay tweaks */
     .ov-title{ font-size:24px }
     .ov-sub{ font-size:16px }
     .ov-keys{ grid-template-columns: 1fr; padding:12px 14px }
-    .field-wrap{ padding:8px }
-    .footbar{ font-size:11px; padding:6px 12px 8px }
-    .footbar .keys span{ font-size:10px }
-    .touch-fire{ width:96px; height:96px; font-size:13px; right:10px; bottom:10px }
-    .touch-arrow{ width:78px; height:78px; font-size:30px; bottom:10px }
-    .touch-arrow.left{ left:10px }
-    .touch-arrow.right{ left:96px }
-    .touch-hint{ font-size:8px; left:10px; right:120px; bottom:100px; padding:5px 8px }
+    /* Footer hidden on mobile — keyboard hints aren't useful on touch */
+    .footbar{ display:none }
+    /* Field fills the available width AND height (no fixed aspect ratio) */
+    .field-wrap{ padding:4px; padding-bottom:104px }
+    .field{
+      width:100%;
+      max-width:none;
+      aspect-ratio:auto;
+      height:100%;
+      max-height:none;
+    }
+    /* Touch controls pinned to the bottom of the viewport (out of the field) */
+    .touch-on .touch-controls{
+      position:fixed;
+      inset:auto 0 0 0;
+      height:96px;
+      z-index:60;
+      background: linear-gradient(to top, rgba(4,16,22,.85), rgba(4,16,22,0));
+    }
+    .touch-fire{ width:88px; height:88px; font-size:13px; right:12px; bottom:6px }
+    .touch-arrow{ width:80px; height:80px; font-size:30px; bottom:6px }
+    .touch-arrow.left{ left:12px }
+    .touch-arrow.right{ left:100px }
+    .touch-hint{ display:none }
   }
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
