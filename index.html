@@ -604,7 +604,14 @@ window.addEventListener('resize', resize);
 
 // -------- Input --------
 const keys = new Set();
+function isTypingInField(e){
+  const t = e.target;
+  if (!t) return false;
+  const tag = t.tagName;
+  return tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || t.isContentEditable;
+}
 window.addEventListener('keydown', (e)=>{
+  if (isTypingInField(e)) return;
   if (['ArrowLeft','ArrowRight','ArrowUp','ArrowDown',' '].includes(e.key)) e.preventDefault();
   keys.add(e.key.toLowerCase());
   if (e.key === 'p' || e.key === 'P') togglePause();
@@ -613,7 +620,10 @@ window.addEventListener('keydown', (e)=>{
   if (state === 'menu' && (e.key === 'Enter' || e.key === ' ')) startGame();
   if (state === 'gameover' && e.key.toLowerCase() === 'r') resetGame(true);
 });
-window.addEventListener('keyup', (e)=> keys.delete(e.key.toLowerCase()));
+window.addEventListener('keyup', (e)=>{
+  if (isTypingInField(e)) return;
+  keys.delete(e.key.toLowerCase());
+});
 
 // -------- Touch / mobile controls --------
 const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
