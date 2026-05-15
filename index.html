@@ -1035,8 +1035,8 @@ function showScoreForm(score, wave){
         </div>` : ''}
 
       <label class="consent">
-        <input type="checkbox" name="CONSENT" id="sf-consent" />
-        <span>Email me dental-care tips & game updates</span>
+        <input type="checkbox" name="gdpr[340]" value="Y" id="sf-consent" required />
+        <span>Send me dental-care tips, offers &amp; news from Smile Serenity Dental Care</span>
       </label>
 
       <div class="row-cta">
@@ -1073,7 +1073,7 @@ function showScoreForm(score, wave){
       wave:    Number(fd.get('WAVE')),
       hiscore: Number(fd.get('HISCORE')),
       game:    fd.get('GAME'),
-      consent: !!fd.get('CONSENT'),
+      consent: !!fd.get('gdpr[340]'),
       at:      new Date().toISOString(),
     };
 
