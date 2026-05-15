@@ -12,6 +12,17 @@ Open `index.html` in any modern browser — desktop or mobile. No build step, no
 dependencies, no server required. The logo is inlined as base64, so the file
 is fully self-contained.
 
+## Which file to use where
+
+| File              | When to use it                                                                                  | Size  |
+| ----------------- | ----------------------------------------------------------------------------------------------- | ----- |
+| `index.html`      | Direct use — open from disk, host on any static server, use anywhere there's no paste size cap. | ~312 KB |
+| `wix-embed.html`  | Wix HTML-Embed widget (which caps pasted code around 200 KB). Logo is referenced by URL.        | ~66 KB  |
+
+For `wix-embed.html`, search-and-replace `__LOGO_URL__` (6 occurrences) with a
+public URL to the logo PNG — typically a Wix Media Manager URL of the form
+`https://static.wixstatic.com/media/...`.
+
 ## Controls
 
 - **Move**: `←` / `→` or `A` / `D`
