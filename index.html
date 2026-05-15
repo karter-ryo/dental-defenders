@@ -455,23 +455,26 @@
     z-index:4;
     display:none;            /* enabled on touch devices via JS */
   }
-  .touch-fire{
+  .touch-btn{
     pointer-events:auto;
     position:absolute;
+    display:flex; align-items:center; justify-content:center;
+    font-family:"Press Start 2P",monospace;
+    color:#04141a;
+    user-select:none; -webkit-user-select:none; -webkit-tap-highlight-color: transparent;
+    transition: transform .04s ease, box-shadow .04s ease;
+    border:none;
+  }
+  .touch-fire{
     right:14px; bottom:14px;
     width:108px; height:108px;
     border-radius:50%;
-    display:flex; align-items:center; justify-content:center;
-    font-family:"Press Start 2P",monospace;
     font-size:14px; letter-spacing:.14em;
-    color:#04141a;
     background: radial-gradient(circle at 35% 30%, #d6fff1, #5cf3ff 55%, #1ea6b6 100%);
     box-shadow:
       0 0 0 3px rgba(92,243,255,.35),
       0 10px 0 #0d3a44,
       0 18px 26px rgba(0,0,0,.45);
-    user-select:none; -webkit-user-select:none; -webkit-tap-highlight-color: transparent;
-    transition: transform .04s ease, box-shadow .04s ease;
   }
   .touch-fire:active, .touch-fire.held{
     transform: translateY(6px);
@@ -480,18 +483,38 @@
       0 4px 0 #0d3a44,
       0 8px 14px rgba(0,0,0,.45);
   }
+  .touch-arrow{
+    bottom:14px;
+    width:88px; height:88px;
+    border-radius:18px;
+    font-size:34px; line-height:1;
+    background: linear-gradient(180deg, #f7d2e9, #ff9ec7 55%, #b9568b 100%);
+    box-shadow:
+      0 0 0 3px rgba(255,158,199,.30),
+      0 9px 0 #4d1f3a,
+      0 16px 22px rgba(0,0,0,.45);
+  }
+  .touch-arrow.left{ left:14px; }
+  .touch-arrow.right{ left:114px; }
+  .touch-arrow:active, .touch-arrow.held{
+    transform: translateY(5px);
+    box-shadow:
+      0 0 0 3px rgba(255,158,199,.30),
+      0 4px 0 #4d1f3a,
+      0 8px 12px rgba(0,0,0,.45);
+  }
   .touch-hint{
     pointer-events:none;
     position:absolute;
-    left:14px; bottom:24px;
+    left:14px; right:140px; bottom:118px;
     color:rgba(234,247,255,.55);
     font-family:"Press Start 2P",monospace;
     font-size:9px; letter-spacing:.18em;
     line-height:1.6;
+    text-align:center;
     background: rgba(4,16,22,.6);
     border:1px solid rgba(127,240,194,.2);
-    padding:8px 10px; border-radius:6px;
-    max-width: 140px;
+    padding:6px 10px; border-radius:6px;
   }
   .touch-on .touch-controls{ display:block }
 
@@ -510,7 +533,10 @@
     .footbar{ font-size:11px; padding:6px 12px 8px }
     .footbar .keys span{ font-size:10px }
     .touch-fire{ width:96px; height:96px; font-size:13px; right:10px; bottom:10px }
-    .touch-hint{ font-size:8px; left:10px; bottom:14px; max-width:120px }
+    .touch-arrow{ width:78px; height:78px; font-size:30px; bottom:10px }
+    .touch-arrow.left{ left:10px }
+    .touch-arrow.right{ left:96px }
+    .touch-hint{ font-size:8px; left:10px; right:120px; bottom:100px; padding:5px 8px }
   }
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -555,8 +581,10 @@
 
       <!-- Touch controls (enabled on touch devices) -->
       <div class="touch-controls" id="touchControls">
-        <div class="touch-hint">DRAG&nbsp;TO&nbsp;MOVE<br/>TAP&nbsp;TO&nbsp;FIRE</div>
-        <button class="touch-fire" id="fireBtn" aria-label="Fire" type="button">FIRE</button>
+        <div class="touch-hint">USE&nbsp;BUTTONS&nbsp;OR&nbsp;DRAG&nbsp;TO&nbsp;MOVE</div>
+        <button class="touch-btn touch-arrow left"  id="leftBtn"  aria-label="Move left"  type="button">&larr;</button>
+        <button class="touch-btn touch-arrow right" id="rightBtn" aria-label="Move right" type="button">&rarr;</button>
+        <button class="touch-btn touch-fire"        id="fireBtn"  aria-label="Fire"       type="button">FIRE</button>
       </div>
 
       <!-- Title overlay -->
@@ -667,7 +695,6 @@ syncTouchOn();
 mq.addEventListener?.('change', syncTouchOn);
 
 // FIRE button — injects/clears the 'space' key while held
-const fireBtn = document.getElementById('fireBtn');
 const touchHintEl = document.querySelector('.touch-hint');
 function hideTouchHint(){
   if (!touchHintEl) return;
@@ -675,16 +702,20 @@ function hideTouchHint(){
   touchHintEl.style.opacity = '0';
   setTimeout(()=>{ touchHintEl && touchHintEl.remove(); }, 600);
 }
-if (fireBtn){
-  const press = (e)=>{ e.preventDefault(); keys.add(' '); fireBtn.classList.add('held'); hideTouchHint(); };
-  const release = (e)=>{ e.preventDefault(); keys.delete(' '); fireBtn.classList.remove('held'); };
-  fireBtn.addEventListener('touchstart', press, {passive:false});
-  fireBtn.addEventListener('touchend',   release, {passive:false});
-  fireBtn.addEventListener('touchcancel',release, {passive:false});
-  fireBtn.addEventListener('mousedown',  press);
-  fireBtn.addEventListener('mouseup',    release);
-  fireBtn.addEventListener('mouseleave', release);
+function bindHoldKey(btn, key){
+  if (!btn) return;
+  const press = (e)=>{ e.preventDefault(); keys.add(key); btn.classList.add('held'); hideTouchHint(); };
+  const release = (e)=>{ e.preventDefault(); keys.delete(key); btn.classList.remove('held'); };
+  btn.addEventListener('touchstart', press, {passive:false});
+  btn.addEventListener('touchend',   release, {passive:false});
+  btn.addEventListener('touchcancel',release, {passive:false});
+  btn.addEventListener('mousedown',  press);
+  btn.addEventListener('mouseup',    release);
+  btn.addEventListener('mouseleave', release);
 }
+bindHoldKey(document.getElementById('leftBtn'),  'arrowleft');
+bindHoldKey(document.getElementById('rightBtn'), 'arrowright');
+bindHoldKey(document.getElementById('fireBtn'),  ' ');
 
 // Drag-to-move: any touch that starts on the field (and not on the fire button)
 // becomes the "steering" touch. The player's x follows that finger directly.
@@ -692,9 +723,9 @@ if (fireBtn){
   const moveTouch = { id: null };
   const onStart = (e)=>{
     for (const t of e.changedTouches){
-      // ignore the fire button's touches
+      // ignore touches that started on any on-screen control button
       const tgt = document.elementFromPoint(t.clientX, t.clientY);
-      if (tgt && tgt.closest && tgt.closest('#fireBtn')) continue;
+      if (tgt && tgt.closest && tgt.closest('.touch-btn')) continue;
       if (moveTouch.id === null){
         moveTouch.id = t.identifier;
         moveTo(t);
