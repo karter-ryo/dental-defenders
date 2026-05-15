@@ -518,68 +518,6 @@
   }
   .touch-on .touch-controls{ display:block }
 
-  /* ---- Fullscreen toggle button ---- */
-  .expand-btn{
-    position:absolute;
-    top:8px; right:8px;
-    width:36px; height:36px;
-    display:flex; align-items:center; justify-content:center;
-    background: rgba(4,16,22,.55);
-    border:1px solid rgba(127,240,194,.35);
-    border-radius:6px;
-    color:#eaf7ff;
-    cursor:pointer;
-    z-index:30;
-    transition: background .15s, transform .05s, box-shadow .15s;
-    -webkit-tap-highlight-color: transparent;
-  }
-  .expand-btn:hover{ background: rgba(127,240,194,.18); box-shadow: 0 0 12px rgba(127,240,194,.25); }
-  .expand-btn:active{ transform: translateY(1px); }
-  .expand-btn svg{ display:block; width:18px; height:18px; }
-  .expand-btn .icon-close{ display:none; }
-  .is-expanded .expand-btn .icon-expand{ display:none; }
-  .is-expanded .expand-btn .icon-close{ display:block; }
-
-  /* In-page fallback expansion (used when the Fullscreen API isn't available
-     — e.g. embedded in an iframe without allow="fullscreen"). */
-  body.is-expanded{ overflow:hidden; }
-  body.is-expanded .stage{
-    position:fixed; inset:0;
-    z-index:9999;
-    background: var(--bg);
-  }
-  body.is-expanded .field-wrap{ padding:8px; }
-  body.is-expanded .field{
-    width:100%; max-width:none;
-    height: calc(100vh - 160px);
-    max-height:none;
-    aspect-ratio:auto;
-  }
-
-  /* When the browser is in true fullscreen, fill it. */
-  .stage:fullscreen{
-    background: var(--bg);
-    width:100vw; height:100vh;
-  }
-  .stage:fullscreen .field-wrap{ padding:8px; }
-  .stage:fullscreen .field{
-    width:100%; max-width:none;
-    height: calc(100vh - 160px);
-    max-height:none;
-    aspect-ratio:auto;
-  }
-  .stage:-webkit-full-screen{
-    background: var(--bg);
-    width:100vw; height:100vh;
-  }
-  .stage:-webkit-full-screen .field-wrap{ padding:8px; }
-  .stage:-webkit-full-screen .field{
-    width:100%; max-width:none;
-    height: calc(100vh - 160px);
-    max-height:none;
-    aspect-ratio:auto;
-  }
-
   /* ---- responsive ---- */
   @media (max-width: 720px){
     .hud{ grid-template-columns: 1fr 1fr; padding:10px 12px 6px; gap:10px; }
@@ -637,10 +575,6 @@
   <!-- Playfield -->
   <div class="field-wrap">
     <div class="field" id="field">
-      <button class="expand-btn" id="expandBtn" type="button" aria-label="Toggle fullscreen" title="Fullscreen">
-        <svg class="icon-expand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
-        <svg class="icon-close"  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
-      </button>
       <div class="stars"></div>
       <div class="stars2"></div>
       <canvas id="game"></canvas>
@@ -782,48 +716,6 @@ function bindHoldKey(btn, key){
 bindHoldKey(document.getElementById('leftBtn'),  'arrowleft');
 bindHoldKey(document.getElementById('rightBtn'), 'arrowright');
 bindHoldKey(document.getElementById('fireBtn'),  ' ');
-
-// ---- Fullscreen / expand toggle ----
-(function bindExpandToggle(){
-  const btn = document.getElementById('expandBtn');
-  if (!btn) return;
-  const stage = document.querySelector('.stage');
-  const isNativeFullscreen = () => !!(document.fullscreenElement || document.webkitFullscreenElement);
-  const isExpanded = () => isNativeFullscreen() || document.body.classList.contains('is-expanded');
-  function enterFullscreen(){
-    const req = stage.requestFullscreen || stage.webkitRequestFullscreen;
-    if (req){
-      const p = req.call(stage);
-      if (p && typeof p.catch === 'function') p.catch(fallbackExpand);
-    } else {
-      fallbackExpand();
-    }
-  }
-  function fallbackExpand(){
-    document.body.classList.add('is-expanded');
-    setTimeout(resize, 50);
-  }
-  function exitFullscreen(){
-    if (isNativeFullscreen()){
-      const exit = document.exitFullscreen || document.webkitExitFullscreen;
-      if (exit) exit.call(document);
-    }
-    document.body.classList.remove('is-expanded');
-    setTimeout(resize, 50);
-  }
-  btn.addEventListener('click', (e)=>{
-    e.preventDefault();
-    if (isExpanded()) exitFullscreen();
-    else enterFullscreen();
-  });
-  // Keep CSS class in sync with native fullscreen state (e.g. user hits Esc).
-  function syncClass(){
-    document.body.classList.toggle('is-expanded', isExpanded());
-    setTimeout(resize, 50);
-  }
-  document.addEventListener('fullscreenchange', syncClass);
-  document.addEventListener('webkitfullscreenchange', syncClass);
-})();
 
 // Drag-to-move: any touch that starts on the field (and not on the fire button)
 // becomes the "steering" touch. The player's x follows that finger directly.
