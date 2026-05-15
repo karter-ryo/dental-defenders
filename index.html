@@ -395,6 +395,36 @@
     animation: blink 1s steps(2,end) infinite;
   }
   @keyframes blink { 50% { opacity: .35 } }
+  .prize-teaser{
+    display:flex; align-items:center; gap:10px;
+    width:min(360px, 92%);
+    margin: 0 0 10px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    background:
+      linear-gradient(180deg, rgba(127,240,194,.10), rgba(127,240,194,.04));
+    border:1px solid rgba(127,240,194,.4);
+    box-shadow: 0 0 0 1px rgba(127,240,194,.08) inset, 0 0 14px rgba(127,240,194,.18);
+    color:#d9fbe9;
+    text-align:left;
+    font-family:"VT323",monospace;
+    font-size:15px;
+    line-height:1.35;
+    letter-spacing:.06em;
+  }
+  .prize-teaser .gift{
+    font-size:22px; line-height:1;
+    filter: drop-shadow(0 0 6px rgba(127,240,194,.55));
+    flex:none;
+  }
+  .prize-teaser b{
+    color: var(--hot);
+    font-family:"Press Start 2P",monospace;
+    font-size:10px; letter-spacing:.16em;
+    display:inline-block;
+    margin-right:4px;
+    text-shadow: 0 0 8px rgba(127,240,194,.45);
+  }
   .submit-success{
     display:none;
     color:var(--hot);
@@ -1014,6 +1044,15 @@ function showScoreForm(score, wave){
       <div class="lab">HI&nbsp;SCORE</div>
       <div class="val">${String(Math.max(high, score)).padStart(5,'0')}</div>
       ${newBest ? '<div class="new-best">★ NEW HIGH SCORE ★</div>' : ''}
+    </div>
+
+    <div class="prize-teaser">
+      <span class="gift" aria-hidden="true">🎁</span>
+      <div>
+        <b>WIN EXCLUSIVE OFFERS</b><br/>
+        Submit your score to enter our prize draw &mdash; top scorers
+        get dental-care discounts and surprise giveaways from Smile Serenity.
+      </div>
     </div>
 
     <div class="submit-success" id="submitSuccess">✓ SCORE SUBMITTED — THANKS!</div>
