@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Why Choose Smile Serenity</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #1b2254;
+    --navy-deep: #131845;
+    --gold: #c8a96e;
+    --gold-light: #e2c98a;
+    --gold-pale: #f0e0b8;
+    --white: #ffffff;
+    --bubble-size: 130px;
+    --orbit-radius: 220px;
+    --orbit-duration: 60s;
+  }
+
+  body {
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    font-family: 'Montserrat', sans-serif;
+    overflow: hidden;
+  }
+
+  .scene {
+    position: relative;
+    width: 600px;
+    height: 600px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .swirl { position: absolute; opacity: 0.08; pointer-events: none; }
+  .swirl-tl { top: -20px; left: -20px; transform: rotate(180deg); }
+  .swirl-br { bottom: -20px; right: -20px; }
+
+  .orbit-ring {
+    position: absolute;
+    width: calc(var(--orbit-radius) * 2 + var(--bubble-size));
+    height: calc(var(--orbit-radius) * 2 + var(--bubble-size));
+    border-radius: 50%;
+    border: 1px dashed rgba(200, 169, 110, 0.2);
+    animation: spin-ring var(--orbit-duration) linear infinite;
+    pointer-events: none;
+  }
+
+  @keyframes spin-ring {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  /* Rotating layer that carries all 8 bubbles around the hub */
+  .orbit-bubbles {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    animation: orbit-rotate var(--orbit-duration) linear infinite;
+    pointer-events: none;
+  }
+  /* Pause the orbit when the user hovers over a bubble so they can read/click */
+  .scene:has(.bubble-wrapper:hover) .orbit-bubbles,
+  .scene:has(.bubble-wrapper:hover) .orbit-ring,
+  .scene:has(.bubble-wrapper:hover) .bubble-wrapper {
+    animation-play-state: paused;
+  }
+  @keyframes orbit-rotate {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+  @keyframes orbit-counter {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(-360deg); }
+  }
+
+  .center-hub {
+    position: relative;
+    z-index: 10;
+    width: 210px;
+    height: 210px;
+    border-radius: 50%;
+    background: var(--navy-deep);
+    border: 2px solid var(--gold);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 18px;
+    box-shadow: 0 0 0 8px rgba(200,169,110,0.08), 0 0 40px rgba(200,169,110,0.15), inset 0 0 30px rgba(0,0,0,0.3);
+    animation: hub-pulse 3s ease-in-out infinite;
+  }
+
+  @keyframes hub-pulse {
+    0%, 100% { box-shadow: 0 0 0 8px rgba(200,169,110,0.08), 0 0 40px rgba(200,169,110,0.15), inset 0 0 30px rgba(0,0,0,0.3); }
+    50% { box-shadow: 0 0 0 12px rgba(200,169,110,0.12), 0 0 60px rgba(200,169,110,0.25), inset 0 0 30px rgba(0,0,0,0.3); }
+  }
+
+  .logo-mark { display: flex; flex-direction: column; align-items: center; margin-bottom: 4px; }
+
+  .smile-text {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px; font-weight: 300;
+    letter-spacing: 6px; color: var(--white);
+    display: block; line-height: 1.3;
+  }
+
+  .serenity-text {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px; font-weight: 300;
+    letter-spacing: 4px; color: var(--gold);
+    display: block; line-height: 1.4;
+  }
+
+  .dental-care {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 7.5px; letter-spacing: 2.5px;
+    color: var(--gold-light); text-transform: uppercase;
+    font-weight: 600; display: block; margin-bottom: 6px;
+  }
+
+  .why-text {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700; font-size: 9px;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--white); line-height: 1.4;
+  }
+
+  .choose-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic; font-size: 15px;
+    color: var(--gold); display: block; line-height: 1.2;
+  }
+
+  .us-text {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700; font-size: 16px;
+    color: var(--white); letter-spacing: 3px; display: block;
+  }
+
+  .bubble-wrapper {
+    position: absolute;
+    width: var(--bubble-size); height: var(--bubble-size);
+    display: flex; align-items: center; justify-content: center;
+    pointer-events: auto;
+    /* Counter-rotate the wrapper so the bubble content stays upright while the
+       orbit-bubbles parent rotates around the hub. */
+    animation: orbit-counter var(--orbit-duration) linear infinite;
+    will-change: transform;
+  }
+
+  .bubble {
+    width: 100%; height: 100%; border-radius: 50%;
+    background: var(--white); border: 2px solid rgba(200,169,110,0.4);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center; padding: 14px 10px; gap: 7px;
+    transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.35s ease, border-color 0.35s ease, background 0.35s ease;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+    will-change: transform;
+    cursor: pointer;
+  }
+
+  .bubble:hover {
+    transform: scale(1.18);
+    background: var(--navy-deep); border-color: var(--gold);
+    box-shadow: 0 0 0 4px rgba(200,169,110,0.2), 0 8px 35px rgba(200,169,110,0.35), 0 4px 20px rgba(0,0,0,0.3);
+  }
+
+  .bubble:hover .bubble-icon svg path,
+  .bubble:hover .bubble-icon svg rect,
+  .bubble:hover .bubble-icon svg circle,
+  .bubble:hover .bubble-icon svg line,
+  .bubble:hover .bubble-icon svg polyline,
+  .bubble:hover .bubble-icon svg ellipse { stroke: var(--gold-light); }
+
+  .bubble:hover .bubble-label { color: var(--gold-pale); }
+
+  .bubble-icon { width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: transform 0.35s ease; }
+  .bubble:hover .bubble-icon { transform: scale(1.1) translateY(-2px); }
+  .bubble-icon svg { width: 34px; height: 34px; }
+  .bubble-icon svg path, .bubble-icon svg rect, .bubble-icon svg circle,
+  .bubble-icon svg line, .bubble-icon svg polyline, .bubble-icon svg ellipse { stroke: var(--gold); transition: stroke 0.35s ease; }
+
+  .bubble-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9.5px; font-weight: 600;
+    color: var(--navy); line-height: 1.35;
+    letter-spacing: 0.3px; transition: color 0.35s ease;
+  }
+
+  /* Position each bubble around the orbit */
+  .bubble-wrapper { --r: 220px; }
+  .b0 { top: calc(50% - var(--r) - var(--bubble-size)/2); left: calc(50% - var(--bubble-size)/2); }
+  .b1 { top: calc(50% - 155px - var(--bubble-size)/2); left: calc(50% + 155px - var(--bubble-size)/2); }
+  .b2 { top: calc(50% - var(--bubble-size)/2); left: calc(50% + var(--r) - var(--bubble-size)/2); }
+  .b3 { top: calc(50% + 155px - var(--bubble-size)/2); left: calc(50% + 155px - var(--bubble-size)/2); }
+  .b4 { top: calc(50% + var(--r) - var(--bubble-size)/2); left: calc(50% - var(--bubble-size)/2); }
+  .b5 { top: calc(50% + 155px - var(--bubble-size)/2); left: calc(50% - 155px - var(--bubble-size)/2); }
+  .b6 { top: calc(50% - var(--bubble-size)/2); left: calc(50% - var(--r) - var(--bubble-size)/2); }
+  .b7 { top: calc(50% - 155px - var(--bubble-size)/2); left: calc(50% - 155px - var(--bubble-size)/2); }
+
+  .center-hub { opacity: 0; animation: hub-enter 0.8s cubic-bezier(0.34,1.56,0.64,1) 0.05s forwards; }
+  @keyframes hub-enter {
+    from { opacity: 0; transform: scale(0.6); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  /* Respect users who prefer no motion */
+  @media (prefers-reduced-motion: reduce) {
+    .orbit-bubbles, .orbit-ring, .bubble-wrapper, .center-hub { animation: none !important; }
+    .center-hub { opacity: 1; }
+  }
+
+  @media (max-width: 640px) {
+    :root { --bubble-size: 90px; --orbit-radius: 155px; }
+    .scene { width: 420px; height: 420px; }
+    .center-hub { width: 130px; height: 130px; padding: 12px; }
+    .b0 { top: calc(50% - 155px - 45px); left: calc(50% - 45px); }
+    .b1 { top: calc(50% - 110px - 45px); left: calc(50% + 110px - 45px); }
+    .b2 { top: calc(50% - 45px); left: calc(50% + 155px - 45px); }
+    .b3 { top: calc(50% + 110px - 45px); left: calc(50% + 110px - 45px); }
+    .b4 { top: calc(50% + 155px - 45px); left: calc(50% - 45px); }
+    .b5 { top: calc(50% + 110px - 45px); left: calc(50% - 110px - 45px); }
+    .b6 { top: calc(50% - 45px); left: calc(50% - 155px - 45px); }
+    .b7 { top: calc(50% - 110px - 45px); left: calc(50% - 110px - 45px); }
+    .bubble-label { font-size: 7.5px; }
+    .bubble-icon { width: 28px; height: 28px; }
+    .bubble-icon svg { width: 26px; height: 26px; }
+    .dental-care { font-size: 7px; }
+    .why-text { font-size: 7px; }
+    .choose-text { font-size: 12px; }
+    .us-text { font-size: 13px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="scene">
+
+  <svg class="swirl swirl-tl" width="120" height="120" viewBox="0 0 120 120" fill="none">
+    <path d="M10 110 Q60 60 110 10" stroke="#c8a96e" stroke-width="2" fill="none"/>
+    <path d="M10 90 Q50 50 90 10" stroke="#c8a96e" stroke-width="1.5" fill="none"/>
+    <path d="M10 70 Q40 40 70 10" stroke="#c8a96e" stroke-width="1" fill="none"/>
+  </svg>
+  <svg class="swirl swirl-br" width="120" height="120" viewBox="0 0 120 120" fill="none">
+    <path d="M10 110 Q60 60 110 10" stroke="#c8a96e" stroke-width="2" fill="none"/>
+    <path d="M10 90 Q50 50 90 10" stroke="#c8a96e" stroke-width="1.5" fill="none"/>
+    <path d="M10 70 Q40 40 70 10" stroke="#c8a96e" stroke-width="1" fill="none"/>
+  </svg>
+
+  <div class="orbit-ring"></div>
+
+  <div class="center-hub">
+    <div class="logo-mark">
+      <span class="smile-text">SMILE</span>
+      <span class="serenity-text">SERENITY</span>
+    </div>
+    <span class="dental-care">Dental Care</span>
+    <div class="why-text">
+      WHY SHOULD YOU
+      <span class="choose-text">Choose</span>
+      <span class="us-text">US?</span>
+    </div>
+  </div>
+
+  <div class="orbit-bubbles">
+
+    <div class="bubble-wrapper b0" onclick="window.open('https://www.smileserenity.co.uk/dentist-in-leicester-and-leicestershire','_blank')">
+      <div class="bubble">
+        <div class="bubble-icon">
+          <svg viewBox="0 0 34 34" fill="none"><circle cx="12" cy="10" r="4" stroke-width="1.5" fill="none"/><circle cx="22" cy="10" r="4" stroke-width="1.5" fill="none"/><path d="M5 26c0-3.866 3.134-7 7-7h8c3.866 0 7 3.134 7 7" stroke-width="1.5" stroke-linecap="round" fill="none"/><circle cx="24" cy="8" r="2.5" stroke-width="1.5" fill="none"/><path d="M23 7.5l1 1 1.5-1.5" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <span class="bubble-label">Expert Guidance</span>
+      </div>
+    </div>
+
+    <div class="bubble-wrapper b1" onclick="window.open('https://www.smileserenity.co.uk/price-list','_blank')">
+      <div class="bubble">
+        <div class="bubble-icon">
+          <svg viewBox="0 0 34 34" fill="none"><rect x="5" y="7" width="24" height="20" rx="2" stroke-width="1.5" fill="none"/><circle cx="17" cy="17" r="5" stroke-width="1.5" fill="none"/><path d="M17 14v6M15 15.5h3c.8 0 1.5.7 1.5 1.5s-.7 1.5-1.5 1.5H15" stroke-width="1.3" stroke-linecap="round"/><line x1="5" y1="11" x2="29" y2="11" stroke-width="1.2"/></svg>
+        </div>
+        <span class="bubble-label">Transparent Affordable Prices</span>
+      </div>
+    </div>
+
+    <div class="bubble-wrapper b2" onclick="window.open('https://www.smileserenity.co.uk/dental-exam-leicester','_blank')">
+      <div class="bubble">
+        <div class="bubble-icon">
+          <svg viewBox="0 0 34 34" fill="none"><path d="M17 7c-2.5 0-4.5 2-4.5 4.5 0 1.8 1 3.3 2.5 4.1V17l2 2 2-2v-1.4c1.5-.8 2.5-2.3 2.5-4.1C21.5 9 19.5 7 17 7z" stroke-width="1.5" fill="none" stroke-linejoin="round"/><path d="M10 28c0-3 3-5 7-5s7 2 7 5" stroke-width="1.5" stroke-linecap="round" fill="none"/><path d="M8 20c-1.5.5-2.5 2-2.5 3.5" stroke-width="1.3" stroke-linecap="round" fill="none"/><path d="M26 20c1.5.5 2.5 2 2.5 3.5" stroke-width="1.3" stroke-linecap="round" fill="none"/></svg>
+        </div>
+        <span class="bubble-label">Tailored Treatment Planning</span>
+      </div>
+    </div>
+
+    <div class="bubble-wrapper b3" onclick="window.open('https://www.smileserenity.co.uk/dentist-in-leicester-and-leicestershire','_blank')">
+      <div class="bubble">
+        <div class="bubble-icon">
+          <svg viewBox="0 0 34 34" fill="none"><rect x="4" y="16" width="26" height="12" rx="2" stroke-width="1.5" fill="none"/><path d="M7 16l4-8h12l4 8" stroke-width="1.5" stroke-linejoin="round" fill="none"/><circle cx="10" cy="28" r="2" stroke-width="1.5" fill="none"/><circle cx="24" cy="28" r="2" stroke-width="1.5" fill="none"/><rect x="13" y="4" width="8" height="12" rx="1" stroke-width="1.3" fill="none"/><path d="M17 7v5M15 9h4" stroke-width="1.3" stroke-linecap="round"/></svg>
+        </div>
+        <span class="bubble-label">Onsite Parking</span>
+      </div>
+    </div>
+
+    <div class="bubble-wrapper b4" onclick="window.open('https://www.smileserenity.co.uk/dentist-in-leicester-and-leicestershire','_blank')">
+      <div class="bubble">
+        <div class="bubble-icon">
+          <svg viewBox="0 0 34 34" fill="none"><circle cx="17" cy="17" r="11" stroke-width="1.5" fill="none"/><path d="M17 10v7l4 4" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 17c0 6.08 4.92 11 11 11" stroke-width="1.5" stroke-linecap="round"/><path d="M6 17l-2.5 2.5M6 17l-2.5-2.5" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <span class="bubble-label">More Time For Better Care</span>
+      </div>
+    </div>
+
+    <div class="bubble-wrapper b5" onclick="window.open('https://www.smileserenity.co.uk/dentist-in-leicester-and-leicestershire','_blank')">
+      <div class="bubble">
+        <div class="bubble-icon">
+          <svg viewBox="0 0 34 34" fill="none"><circle cx="17" cy="7" r="2.5" stroke-width="1.5" fill="none"/><path d="M17 10v9l4 3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M13 13h6" stroke-width="1.5" stroke-linecap="round"/><path d="M21 22l2 5" stroke-width="1.5" stroke-linecap="round"/><path d="M23 27h4" stroke-width="1.5" stroke-linecap="round"/><circle cx="15" cy="27" r="4" stroke-width="1.5" fill="none"/></svg>
+        </div>
+        <span class="bubble-label">Wheel Chair Accessible</span>
+      </div>
+    </div>
+
+    <div class="bubble-wrapper b6" onclick="window.open('https://pcurl.uk/20753320uToho','_blank')">
+      <div class="bubble">
+        <div class="bubble-icon">
+          <svg viewBox="0 0 34 34" fill="none"><rect x="5" y="7" width="20" height="20" rx="2" stroke-width="1.5" fill="none"/><line x1="5" y1="12" x2="25" y2="12" stroke-width="1.3"/><line x1="9" y1="5" x2="9" y2="10" stroke-width="1.5" stroke-linecap="round"/><line x1="21" y1="5" x2="21" y2="10" stroke-width="1.5" stroke-linecap="round"/><rect x="9" y="16" width="4" height="4" rx="0.5" stroke-width="1.2" fill="none"/><rect x="16" y="16" width="4" height="4" rx="0.5" stroke-width="1.2" fill="none"/><path d="M26 22l3-3-3-3" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><line x1="29" y1="19" x2="22" y2="19" stroke-width="1.4" stroke-linecap="round"/></svg>
+        </div>
+        <span class="bubble-label">Online Booking</span>
+      </div>
+    </div>
+
+    <div class="bubble-wrapper b7" onclick="window.open('https://www.smileserenity.co.uk/dentist-in-leicester-and-leicestershire','_blank')">
+      <div class="bubble">
+        <div class="bubble-icon">
+          <svg viewBox="0 0 34 34" fill="none"><circle cx="17" cy="13" r="5" stroke-width="1.5" fill="none"/><path d="M9 27c0-4.418 3.582-8 8-8s8 3.582 8 8" stroke-width="1.5" stroke-linecap="round" fill="none"/><circle cx="26" cy="10" r="4" stroke-width="1.3" fill="none"/><path d="M24.5 10l1 1 2-2" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 27c.5-3 2.5-5.5 5-6.5" stroke-width="1.3" stroke-linecap="round" fill="none"/></svg>
+        </div>
+        <span class="bubble-label">Always Here For You</span>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+</body>
+</html>
