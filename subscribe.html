@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Subscribe — Smile Serenity Dental Care</title>
+<style>
+  :root{
+    --brand:#0d3a6b;
+    --brand-dark:#0a2c52;
+    --ink:#1a2640;
+    --dim:#6b7a90;
+    --line:#d8dee9;
+    --bg:#f7f9fc;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:transparent}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    color:var(--ink);
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  .ss-sub{
+    max-width:460px;
+    margin:24px auto;
+    padding:32px 28px;
+    background:#fff;
+    border-radius:14px;
+    box-shadow:0 1px 2px rgba(13,58,107,.06),0 12px 32px rgba(13,58,107,.10);
+  }
+  .ss-sub .brand{
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:.20em;
+    color:var(--brand);
+    margin-bottom:14px;
+  }
+  .ss-sub h2{
+    margin:0 0 8px;
+    font-size:24px;
+    font-weight:700;
+    letter-spacing:-.01em;
+    color:var(--brand);
+    line-height:1.25;
+  }
+  .ss-sub p.lead{
+    margin:0 0 22px;
+    color:var(--dim);
+    font-size:15px;
+  }
+  .ss-sub label.lbl{
+    display:block;
+    font-size:11px;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:.10em;
+    color:var(--brand);
+    margin-bottom:6px;
+  }
+  .ss-sub input[type="text"],
+  .ss-sub input[type="email"]{
+    width:100%;
+    padding:12px 14px;
+    border:1px solid var(--line);
+    border-radius:8px;
+    font-size:15px;
+    font-family:inherit;
+    color:var(--ink);
+    background:#fff;
+    transition:border-color .15s,box-shadow .15s;
+    outline:none;
+  }
+  .ss-sub input[type="text"]:focus,
+  .ss-sub input[type="email"]:focus{
+    border-color:var(--brand);
+    box-shadow:0 0 0 3px rgba(13,58,107,.12);
+  }
+  .ss-sub .field{margin-bottom:16px}
+  .ss-sub .consent{
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    font-size:13px;
+    color:var(--dim);
+    margin:6px 0 20px;
+    line-height:1.45;
+    cursor:pointer;
+  }
+  .ss-sub .consent input[type="checkbox"]{
+    width:18px;height:18px;
+    flex:none;
+    margin-top:1px;
+    accent-color:var(--brand);
+    cursor:pointer;
+  }
+  .ss-sub button[type="submit"]{
+    width:100%;
+    padding:14px 18px;
+    border:none;
+    background:var(--brand);
+    color:#fff;
+    font-size:15px;
+    font-weight:600;
+    letter-spacing:.02em;
+    border-radius:8px;
+    cursor:pointer;
+    transition:background .15s,transform .05s;
+    font-family:inherit;
+  }
+  .ss-sub button[type="submit"]:hover{background:var(--brand-dark)}
+  .ss-sub button[type="submit"]:active{transform:translateY(1px)}
+  .ss-sub button[type="submit"][disabled]{
+    background:var(--dim);
+    cursor:not-allowed;
+    opacity:.75;
+  }
+  .ss-sub .footnote{
+    margin:14px 0 0;
+    text-align:center;
+    font-size:12px;
+    color:var(--dim);
+  }
+  .ss-sub .msg{
+    display:none;
+    margin:0 0 16px;
+    padding:12px 14px;
+    border-radius:8px;
+    font-size:14px;
+    line-height:1.45;
+  }
+  .ss-sub .msg.show{display:block}
+  .ss-sub .msg.ok{
+    color:#0e6b48;
+    background:#e8f7ef;
+    border:1px solid #c4ebd4;
+  }
+  .ss-sub .msg.error{
+    color:#872433;
+    background:#fce8eb;
+    border:1px solid #f3c4cc;
+  }
+  .ss-sub .honey{position:absolute;left:-5000px;width:1px;height:1px;overflow:hidden}
+</style>
+</head>
+<body>
+<div class="ss-sub" role="region" aria-label="Smile Serenity newsletter signup">
+  <div class="brand">SMILE&nbsp;SERENITY&nbsp;·&nbsp;DENTAL&nbsp;CARE</div>
+  <h2>Subscribe for a healthier smile</h2>
+  <p class="lead">Exclusive offers and oral-hygiene advice from Smile Serenity Dental Care, straight to your inbox.</p>
+
+  <div id="ssMsg" class="msg" role="status" aria-live="polite"></div>
+
+  <form id="ssForm" novalidate>
+    <div class="field">
+      <label class="lbl" for="ss-fname">First name</label>
+      <input id="ss-fname" name="FNAME" type="text" required maxlength="40" autocomplete="given-name" placeholder="Your first name" />
+    </div>
+    <div class="field">
+      <label class="lbl" for="ss-email">Email address</label>
+      <input id="ss-email" name="EMAIL" type="email" required maxlength="80" autocomplete="email" placeholder="you@example.com" />
+    </div>
+
+    <label class="consent" for="ss-consent">
+      <input id="ss-consent" type="checkbox" name="gdpr[340]" value="Y" required />
+      <span>Send me dental-care tips, offers and news from Smile Serenity Dental Care. You can unsubscribe at any time.</span>
+    </label>
+
+    <div class="honey" aria-hidden="true">
+      <label>Don't fill this in:
+        <input type="text" name="b_3377b391a94a0a0707fe2129c_25e38ac421" tabindex="-1" value="" autocomplete="off" />
+      </label>
+    </div>
+
+    <button id="ssSubmit" type="submit">Subscribe</button>
+    <p class="footnote">We respect your privacy.</p>
+  </form>
+</div>
+
+<script>
+(function(){
+  var form   = document.getElementById('ssForm');
+  var submit = document.getElementById('ssSubmit');
+  var msg    = document.getElementById('ssMsg');
+  // Smile Serenity audience — same as the in-game form
+  var ACTION = 'https://smileserenity.us2.list-manage.com/subscribe/post-json?u=3377b391a94a0a0707fe2129c&id=25e38ac421&f_id=00a8c1e1f0';
+
+  function showMessage(kind, text){
+    msg.className = 'msg show ' + kind;
+    msg.textContent = text;
+  }
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    msg.className = 'msg';
+    if (!form.checkValidity()) { form.reportValidity(); return; }
+
+    submit.disabled = true;
+    var origText = submit.textContent;
+    submit.textContent = 'Subscribing…';
+
+    var fd = new FormData(form);
+    var params = new URLSearchParams();
+    fd.forEach(function(v, k){ params.append(k, v); });
+
+    var cb = 'mcCb_' + Date.now() + '_' + Math.floor(Math.random() * 1e6);
+    params.append('c', cb);
+
+    var script;
+    window[cb] = function(resp){
+      try { delete window[cb]; } catch(e) { window[cb] = undefined; }
+      if (script && script.parentNode) script.parentNode.removeChild(script);
+      submit.disabled = false;
+      submit.textContent = origText;
+      if (resp && resp.result === 'success') {
+        showMessage('ok', 'Thanks! Please check your inbox to confirm your subscription.');
+        form.reset();
+      } else {
+        var m = (resp && resp.msg) ? String(resp.msg).replace(/<[^>]+>/g, '') : 'Sorry, something went wrong. Please try again.';
+        // Mailchimp often prefixes its error message with "0 - "
+        m = m.replace(/^\d+\s*-\s*/, '');
+        showMessage('error', m);
+      }
+    };
+
+    script = document.createElement('script');
+    script.src = ACTION + '&' + params.toString();
+    script.onerror = function(){
+      try { delete window[cb]; } catch(e){}
+      submit.disabled = false;
+      submit.textContent = origText;
+      showMessage('error', 'Network problem — please try again in a moment.');
+    };
+    document.head.appendChild(script);
+  });
+})();
+</script>
+</body>
+</html>
