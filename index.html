@@ -1059,6 +1059,16 @@ const FORM_CONFIG = {
   title: 'Dental Defenders',
 };
 
+// Inside the Chess Club app: hand the finished game's score to the app.
+// Phones: the app registers a ScoreChannel. Web/test mode: the game sits in an
+// iframe, so it also posts a message to the parent page.
+function reportScoreToApp(score, wave){
+  if (!APP_MODE || !(score > 0)) return;
+  const msg = JSON.stringify({ type:'dd-score', score: Math.floor(score), wave: Math.floor(wave) });
+  try { if (window.ScoreChannel && typeof window.ScoreChannel.postMessage === 'function') window.ScoreChannel.postMessage(msg); } catch(e){}
+  try { if (window.parent && window.parent !== window) window.parent.postMessage(msg, '*'); } catch(e){}
+}
+
 function showScoreForm(score, wave){
   // Persist locally regardless of submission mode (handy fallback).
   try {
@@ -1071,8 +1081,9 @@ function showScoreForm(score, wave){
   const newBest = score >= high && score > 0;
 
   // App mode (?app=1, used inside the Chess Club app): no sign-up form.
-  // The score is kept on this device only; nothing is sent anywhere.
+  // The score is passed to the app, which saves it to the club leaderboard.
   if (APP_MODE){
+    reportScoreToApp(score, wave);
     overlay.innerHTML = `
       <div class="brand-hero" style="margin-bottom:10px; padding:10px 16px">
         <div class="b-text">
