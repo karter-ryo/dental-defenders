@@ -744,6 +744,9 @@ bindHoldKey(document.getElementById('fireBtn'),  ' ');
       // ignore touches that started on any on-screen control button
       const tgt = document.elementFromPoint(t.clientX, t.clientY);
       if (tgt && tgt.closest && tgt.closest('.touch-btn')) continue;
+      // let taps on overlay buttons, links and form fields (Play again, Start,
+      // Resume, the score form) through as normal clicks
+      if (tgt && tgt.closest && tgt.closest('.overlay:not(.hidden) button, .overlay:not(.hidden) a, .overlay:not(.hidden) input, .overlay:not(.hidden) textarea, .overlay:not(.hidden) select, .overlay:not(.hidden) label')) continue;
       if (moveTouch.id === null){
         moveTouch.id = t.identifier;
         moveTo(t);
